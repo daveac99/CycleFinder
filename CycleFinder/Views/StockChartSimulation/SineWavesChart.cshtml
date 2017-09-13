@@ -1,0 +1,65 @@
+﻿@model CycleFinder.Models.SineWavesViewModel
+
+@{
+    ViewData["Title"] = "About";
+}
+
+
+<div id="containerWave" style="width: 1000px; height: 800px; margin: 0 auto"></div>
+<div id="containerFourier" style="width: 1000px; height: 800px; margin: 0 auto"></div>
+<script language="JavaScript">
+function drawChartWave() {
+   // Define the chart to be drawn.
+   var data = new google.visualization.DataTable();
+   data.addColumn('number', 'Period');
+   data.addColumn('number', 'Price');
+   data.addRows([
+        @Model.WavesFormatted
+   ]);
+   
+   // Set chart options
+   var options = {'title' : 'Wave Chart',
+      hAxis: {
+         title: 'Time'
+      },
+      vAxis: {
+         title: 'Price',
+      },   
+      'width': 900, 
+      'height':500    
+   };
+
+   // Instantiate and draw the chart.
+   var chart = new google.charts.Line(document.getElementById('containerWave'));
+   chart.draw(data, google.charts.Line.convertOptions(options));	
+}
+	
+function drawChartFourier() {
+   // Define the chart to be drawn.
+   var data = new google.visualization.DataTable();
+   data.addColumn('number', 'Frequency');
+   data.addColumn('number', 'Amplitude');
+   data.addRows([
+        @Model.FFTFormatted
+   ]);
+   
+   // Set chart options
+   var options = {'title' : 'Fourier',
+      hAxis: {
+         title: 'Frequency'
+      },
+      vAxis: {
+         title: 'Ampltitude',
+      },   
+      'width': 900, 
+      'height':500    
+   };	
+
+   // Instantiate and draw the chart.
+   var chart = new google.charts.Line(document.getElementById('containerFourier'));
+   chart.draw(data, google.charts.Line.convertOptions(options));
+}
+google.charts.load('current', {'packages': ['line']});
+google.charts.setOnLoadCallback(drawChartWave);
+google.charts.setOnLoadCallback(drawChartFourier);
+</script>

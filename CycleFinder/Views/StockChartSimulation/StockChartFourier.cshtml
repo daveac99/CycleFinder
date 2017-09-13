@@ -1,0 +1,72 @@
+﻿@model CycleFinder.Models.StockChartSimulationViewModel
+
+@{
+    ViewData["Title"] = "About";
+}
+
+
+<div id="containerWave" style="width: 1000px; height: 800px; margin: 0 auto"></div>
+<div id="containerFourier" style="width: 1000px; height: 800px; margin: 0 auto"></div>
+<script language="JavaScript">
+function drawChartWave() {
+   // Define the chart to be drawn.
+   var data = new google.visualization.DataTable();
+   data.addColumn('number', 'Time');
+   @Html.DisplayFor(x => x.WaveOutputs)
+   data.addRows([
+        @Model.WaveOutputsFormatted
+   ]);
+   
+   // Set chart options
+   var options = {'title' : 'Wave Chart',
+      hAxis: {
+         title: 'Time'
+      },
+      vAxis: {
+         title: 'Price'
+      },   
+      'width': 900, 
+      'height':500    
+   };
+
+   // Instantiate and draw the chart.
+   //var chart = new google.charts.Line(document.getElementById('containerWave'));
+	var chart = new google.visualization.LineChart(document.getElementById('containerWave'));
+	chart.draw(data, options);
+   //chart.draw(data, google.charts.Line.convertOptions(options));	
+}
+	
+function drawChartFourier() {
+   // Define the chart to be drawn.
+   var data = new google.visualization.DataTable();
+   data.addColumn('number', 'Frequency');
+   data.addColumn('number', 'Amplitude');
+   data.addRows([
+        @Model.DFT1Formatted
+   ]);
+   
+   // Set chart options
+   var options = {'title' : 'Fourier',
+	  explorer: {},
+      hAxis: {
+         title: 'Frequency'
+      },
+      vAxis: {
+         title: 'Ampltitude',
+	     scaleType: 'log'
+      },   
+      'width': 900, 
+      'height':500    
+   };	
+
+   // Instantiate and draw the chart.
+   //var chart = new google.charts.Line(document.getElementById('containerFourier'));
+	var chart = new google.visualization.LineChart(document.getElementById('containerFourier'));
+	chart.draw(data, options);
+   //chart.draw(data, google.charts.Line.convertOptions(options));
+}
+//google.charts.load('current', {'packages': ['line']});
+	google.charts.load('current', {'packages': ['corechart']});
+google.charts.setOnLoadCallback(drawChartWave);
+google.charts.setOnLoadCallback(drawChartFourier);
+</script>
