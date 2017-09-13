@@ -7,6 +7,25 @@
 
 <div id="containerWave" style="width: 1000px; height: 500px; margin: 0 auto"></div>
 <div id="containerFilters" style="width: 1000px; height: 500px; margin: 0 auto"></div>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(x => x.TimeSpacing);
+    @Html.EditorFor(x => x.TimeSpacing);
+    @Html.LabelFor(x => x.NumberOfWeights);
+    @Html.EditorFor(x => x.NumberOfWeights);
+    @Html.LabelFor(x => x.FrequencyLowEndCutOff);
+    @Html.EditorFor(x => x.FrequencyLowEndCutOff);
+    @Html.LabelFor(x => x.FrequencyLowEndRollOff);
+    @Html.EditorFor(x => x.FrequencyLowEndRollOff);
+    @Html.LabelFor(x => x.FrequencyHighEndRollOff);
+    @Html.EditorFor(x => x.FrequencyHighEndRollOff);
+    @Html.LabelFor(x => x.FrequencyHighEndCutOff);
+    @Html.EditorFor(x => x.FrequencyHighEndCutOff);
+
+    <input type="submit" value="Update Chart">
+}
+
 <script language="JavaScript">
 function drawChartWave() {
    // Define the chart to be drawn.

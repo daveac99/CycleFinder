@@ -45,8 +45,10 @@ namespace CycleFinder.Models
 			{
 				var wavesList = new List<WaveOutput>();
 				wavesList.Add(new WaveOutput(InputSignalSeries, "Composite"));
-				wavesList.AddRange(SineWavesSeries.Select(x => new WaveOutput(x.InputSignalSeries, "Sine Wave")));
-				wavesList.Add(new WaveOutput(LongTermTrendSeries.InputSignalSeries, "Long Term Trend"));
+                if (SineWavesSeries != null)
+				    wavesList.AddRange(SineWavesSeries.Select(x => new WaveOutput(x.InputSignalSeries, "Sine Wave")));
+                if (LongTermTrendSeries?.InputSignalSeries != null)
+				    wavesList.Add(new WaveOutput(LongTermTrendSeries.InputSignalSeries, "Long Term Trend"));
 				return wavesList;
 			}
 		}

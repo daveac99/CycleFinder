@@ -48,23 +48,32 @@ namespace CycleFinder.Controllers
 
 			//just use ViewBag for viewmodel for the moment
 
-			var viewmodel = new StockChartSimulationViewModel(); //TODO create a StockChartViewModel which inherits from SineWaveViewModel
+			var stockChartSimulationViewModel = new StockChartSimulationViewModel(); //TODO create a StockChartViewModel which inherits from SineWaveViewModel
 															 //viewmodel.AddSineWave(1000,1,0,"blue");
 															 //viewmodel.AddSineWave(2000,.5, .75 * Math.PI,"green");
-			viewmodel.AddSineWave(0.25, 90, 0); //2
-			viewmodel.AddSineWave(0.67, 45, 0); //3
-			viewmodel.AddSineWave(1, 15, 0);    //4
-            viewmodel.AddSineWave(3, 10, 0);    //5
-            viewmodel.AddSineWave(5, 7, 0);    //6
-			viewmodel.LongTermTrend = new LongTermTrend(100, 30, 0.1, 100, 0); //1
-			viewmodel.GetInputSignalSeriesPerWave(2000, 52);
-            viewmodel.GetInputSignalSeriesSummed(2000, 52);
+			stockChartSimulationViewModel.AddSineWave(0.25, 90, 0); //2
+			stockChartSimulationViewModel.AddSineWave(0.67, 45, 0); //3
+			stockChartSimulationViewModel.AddSineWave(1, 15, 0);    //4
+            stockChartSimulationViewModel.AddSineWave(3, 10, 0);    //5
+            stockChartSimulationViewModel.AddSineWave(5, 7, 0);    //6
+			stockChartSimulationViewModel.LongTermTrend = new LongTermTrend(100, 30, 0.1, 100, 0); //1
+			stockChartSimulationViewModel.GetInputSignalSeriesPerWave(2000, 52);
+            stockChartSimulationViewModel.GetInputSignalSeriesSummed(2000, 52);
             //viewmodel.AddFilter(DigitalFilterType.BandPass, 7,99,1,1.5,3,4);
-            viewmodel.AddFilter(DigitalFilterType.BandPass, 1, 199, 0.14, 0.2, 0.30, 0.36); 
+            stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass, 7, 199, 0.14, 0.2, 0.30, 0.36); //sets property values as well
             //viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
 
-			return View(viewmodel);
+			return View(stockChartSimulationViewModel);
 		}
+
+        [HttpPost]
+        public IActionResult BandPassFilteredChart(StockChartSimulationViewModel stockChartSimulationViewModel)
+        {
+            stockChartSimulationViewModel.RemoveFilters(DigitalFilterType.BandPass);
+            stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass); //use the properties set in the view
+
+            return View(stockChartSimulationViewModel);
+        }
 	}
 }
 
