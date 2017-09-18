@@ -15,6 +15,9 @@ namespace CycleFinder.Models
            
         }
 
+        public Kernel Kernel { get; set; }
+        public string KernelValuesFormatted => Kernel.KernelValues.GoogleChartDataFormat();
+
         public List<DigitalFilterViewModel> Filters { get; set; } = new List<DigitalFilterViewModel>();
 
 		public List<WaveOutput> StockPlusFilters
@@ -22,10 +25,23 @@ namespace CycleFinder.Models
 			get
 			{
 				var wavesList = new List<WaveOutput>();
+
                 if (Filters.Count == 0)
                           return wavesList;
 				wavesList.Add(new WaveOutput(Filters[0].ConvertedStockInputData, "Stock")); //use time space converted data
                 wavesList.AddRange(Filters.Select(x => new WaveOutput(x.DataSeries, $"{x.FilterType}: {x.Parameters}")));
+				return wavesList;
+			}
+		}
+
+		public List<WaveOutput> StockPlusKernel
+		{
+			get
+			{
+				var wavesList = new List<WaveOutput>();
+
+				wavesList.Add(new WaveOutput(InputSignalSeries, "Stock")); 
+                wavesList.Add(new WaveOutput(Kernel.KernelValues, $"{Kernel.Name}"));
 				return wavesList;
 			}
 		}

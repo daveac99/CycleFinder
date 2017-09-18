@@ -7,7 +7,7 @@ namespace CycleFinder.Models
 {
     public abstract class DigitalFilter //dont want to actually instantiate this class (ie its abstract)
     {
-        public DigitalFilter()
+        protected DigitalFilter()
         {
         }
 

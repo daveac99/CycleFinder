@@ -62,6 +62,8 @@ namespace CycleFinder.Controllers
             //viewmodel.AddFilter(DigitalFilterType.BandPass, 7,99,1,1.5,3,4);
             stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass, 7, 199, 0.14, 0.2, 0.30, 0.36); //sets property values as well
             //viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
+            stockChartSimulationViewModel.Kernel = Kernel.GetLowPassKernel(0.14, 100);
+
 
 			return View(stockChartSimulationViewModel);
 		}
@@ -74,6 +76,30 @@ namespace CycleFinder.Controllers
 
             return View(stockChartSimulationViewModel);
         }
+
+		public IActionResult LowPassFilteredChart()
+		{
+			ViewData["Message"] = "Band Pass filter Chart.";
+
+			//just use ViewBag for viewmodel for the moment
+
+			var stockChartSimulationViewModel = new StockChartSimulationViewModel(); //TODO create a StockChartViewModel which inherits from SineWaveViewModel
+																					 //viewmodel.AddSineWave(1000,1,0,"blue");
+																					 //viewmodel.AddSineWave(2000,.5, .75 * Math.PI,"green");
+			stockChartSimulationViewModel.AddSineWave(0.25, 90, 0); //2
+			stockChartSimulationViewModel.AddSineWave(0.67, 45, 0); //3
+			stockChartSimulationViewModel.AddSineWave(1, 15, 0);    //4
+			stockChartSimulationViewModel.AddSineWave(3, 10, 0);    //5
+			stockChartSimulationViewModel.AddSineWave(5, 7, 0);    //6
+			stockChartSimulationViewModel.LongTermTrend = new LongTermTrend(100, 30, 0.1, 100, 0); //1
+			stockChartSimulationViewModel.GetInputSignalSeriesPerWave(2000, 52);
+			stockChartSimulationViewModel.GetInputSignalSeriesSummed(2000, 52);
+																												//viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
+			stockChartSimulationViewModel.Kernel = Kernel.GetLowPassKernel(0.14, 100);
+
+
+			return View(stockChartSimulationViewModel);
+		}
 	}
 }
 
