@@ -12,9 +12,10 @@ namespace CycleFinder.Models
         }
 
         protected List<double> StockInputData { get; set; }  //derived class can access
-        protected List<double> NumericAnalysis { get; set; }
+        public List<double> Kernel { get; set; }
 		protected int TimeSpacing { get; set; }
 		protected int NumberOfWeights { get; set; }
+        public string Name { get; set; }
 
         public List<double> StockPricesFiltered { get; private set; }
 
@@ -45,7 +46,7 @@ namespace CycleFinder.Models
                 double sum = 0;
                 for (var j = 0; j < NumberOfWeights; j++)
                 {
-                    sum += (ConvertedStockInputData[i + j] * NumericAnalysis[j]);
+                    sum += (ConvertedStockInputData[i + j] * Kernel[j]);
                 }
                 numericAnalysis[centralPriceDatum] = sum;
             }

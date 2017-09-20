@@ -33,7 +33,7 @@ namespace CycleFinder.Models
                 weights.Add(weight);
             }
 
-            NumericAnalysis = weights;
+            Kernel = weights;
         }
 
 

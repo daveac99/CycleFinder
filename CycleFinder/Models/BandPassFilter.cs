@@ -78,7 +78,7 @@ namespace CycleFinder.Models
             //    weights2[i] -= avge2;
             //}
 
-            NumericAnalysis = weights;
+            Kernel = weights;
         }
 
 

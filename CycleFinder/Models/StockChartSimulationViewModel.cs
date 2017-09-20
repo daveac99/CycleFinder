@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using CycleFinder.Extensions;
 using static CycleFinder.Models.Fourier;
+using CycleFinder.Models;
 
 namespace CycleFinder.Models
 {
@@ -14,9 +15,6 @@ namespace CycleFinder.Models
         {
            
         }
-
-        public Kernel Kernel { get; set; }
-        public string KernelValuesFormatted => Kernel.KernelValues.GoogleChartDataFormat();
 
         public List<DigitalFilterViewModel> Filters { get; set; } = new List<DigitalFilterViewModel>();
 
@@ -34,19 +32,70 @@ namespace CycleFinder.Models
 			}
 		}
 
-		public List<WaveOutput> StockPlusKernel
+		//public List<WaveOutput> StockPlusKernel
+		//{
+		//	get
+		//	{
+		//		var wavesList = new List<WaveOutput>();
+
+		//		wavesList.Add(new WaveOutput(InputSignalSeries, "Stock")); 
+  //              wavesList.Add(new WaveOutput(Kernel.KernelValues, $"{Kernel.Name}"));
+		//		return wavesList;
+		//	}
+		//}
+
+
+
+		//public List<WaveOutput> KernelOnly
+		//{
+		//	get
+		//	{
+		//		var wavesList = new List<WaveOutput>();
+
+		//		wavesList.Add(new WaveOutput(Kernel.KernelValues, $"{Kernel.Name}"));
+		//		return wavesList;
+		//	}
+		//}
+
+		//public List<WaveOutput> KernelOnlyFrequencyResponse
+		//{
+		//	get
+		//	{
+		//		var wavesList = new List<WaveOutput>();
+
+  //              wavesList.Add(new WaveOutput(DFT1(Kernel.KernelValues).Select(x => x.Magnitude).ToList(), $"{Kernel.Name}"));
+		//		return wavesList;
+		//	}
+		//}
+
+        public List<WaveOutput> FilterOnly
 		{
 			get
 			{
 				var wavesList = new List<WaveOutput>();
 
-				wavesList.Add(new WaveOutput(InputSignalSeries, "Stock")); 
-                wavesList.Add(new WaveOutput(Kernel.KernelValues, $"{Kernel.Name}"));
+				wavesList.AddRange(Filters.Select(x => new WaveOutput(x.NumericAnalysis, $"{x.FilterType}: {x.Parameters}")));
+				return wavesList;
+			}
+		}
+
+		public List<WaveOutput> FilterOnlyFrequencyResponse
+		{
+			get
+			{
+				var wavesList = new List<WaveOutput>();
+
+                wavesList.AddRange(Filters.Select(x => new WaveOutput(DFT1(x.NumericAnalysis).Select(y => y.Magnitude).ToList(), $"{x.FilterType}: {x.Parameters}")));
 				return wavesList;
 			}
 		}
 
         public string StockPlusFiltersFormatted => StockPlusFilters.Select(x => x.OutputSeries).ToList().GoogleChartDataFormat();
+      //  public string StockPlusKernelFormatted => StockPlusKernel.Select(x => x.OutputSeries).ToList().GoogleChartDataFormat();
+       // public string KernelOnlyFormatted => KernelOnly.Select(x => x.OutputSeries).ToList().GoogleChartDataFormat();
+        public string FilterOnlyFormatted => FilterOnly.Select(x => x.OutputSeries).ToList().GoogleChartDataFormat();
+        public string FilterOnlyFrequencyResponseFormatted => FilterOnlyFrequencyResponse.Select(x => x.OutputSeries).ToList().GoogleChartDataFormat();
+      //  public string KernelOnlyFrequencyResponseFormatted => KernelOnlyFrequencyResponse.Select(x => x.OutputSeries).ToList().GoogleChartDataFormat();
 
 		public string WaveOutputsFormatted => WaveOutputs.Select(x => x.OutputSeries).ToList().GoogleChartDataFormat();
 
@@ -94,6 +143,11 @@ namespace CycleFinder.Models
             FrequencyHighEndRollOff = frequencyHighEndRollOff;
             FrequencyHighEndCutOff = frequencyHighEndCutOff;
 		}
+
+        public void AddFilter(DigitalFilterType filterType, double cutoffFrequency, int filterLength)
+        {
+            var filter = Factory.GetDigitalFilter(filterType, cutoffFrequency, filterLength);
+        }
 
         public void RemoveFilters(DigitalFilterType filterType)
         {
