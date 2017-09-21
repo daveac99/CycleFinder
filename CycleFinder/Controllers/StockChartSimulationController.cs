@@ -95,7 +95,7 @@ namespace CycleFinder.Controllers
 			stockChartSimulationViewModel.GetInputSignalSeriesPerWave(2000, 52);
 			stockChartSimulationViewModel.GetInputSignalSeriesSummed(2000, 52);
 																												//viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
-			stockChartSimulationViewModel.AddFilter(DigitalFilterType.LowPass, 0.14, 100);
+			stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.14, 100);
 		//	stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass, 7, 199, 0.14, 0.2, 0.30, 0.36); //sets property values as well
 
 

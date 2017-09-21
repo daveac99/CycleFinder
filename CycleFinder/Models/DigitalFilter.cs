@@ -12,7 +12,7 @@ namespace CycleFinder.Models
         }
 
         protected List<double> StockInputData { get; set; }  //derived class can access
-        public List<double> Kernel { get; set; }
+        public List<double> Kernel { get; set; } = new List<double>();
 		protected int TimeSpacing { get; set; }
 		protected int NumberOfWeights { get; set; }
         public string Name { get; set; }

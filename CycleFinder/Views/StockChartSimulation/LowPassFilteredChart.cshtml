@@ -44,7 +44,7 @@ function drawChartFilters() {
    data.addColumn('number', 'Frequency');
    @Html.DisplayFor(x => x.FilterOnly) 
    data.addRows([
-        @Model.KernelOnlyFrequencyResponseFormatted
+        @Model.InputSignalConvolutedFormatted;
    ]);
    
    // Set chart options

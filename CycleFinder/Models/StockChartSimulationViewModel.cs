@@ -6,6 +6,7 @@ using System.Numerics;
 using CycleFinder.Extensions;
 using static CycleFinder.Models.Fourier;
 using CycleFinder.Models;
+using CycleFinder.Helpers;
 
 namespace CycleFinder.Models
 {
@@ -13,8 +14,13 @@ namespace CycleFinder.Models
     {
         public StockChartSimulationViewModel()
         {
-           
+
         }
+        public DigitalFilter DigitalFilter { get; set; }
+        public List<Double> InputSignalConvoluted => DSP.Convolve(InputSignalSeries, DigitalFilter.Kernel);
+        public string InputSignalConvolutedFormatted => InputSignalConvoluted.GoogleChartDataFormat();
+
+
 
         public List<DigitalFilterViewModel> Filters { get; set; } = new List<DigitalFilterViewModel>();
 
@@ -31,6 +37,8 @@ namespace CycleFinder.Models
 				return wavesList;
 			}
 		}
+
+
 
 		//public List<WaveOutput> StockPlusKernel
 		//{
@@ -144,9 +152,10 @@ namespace CycleFinder.Models
             FrequencyHighEndCutOff = frequencyHighEndCutOff;
 		}
 
-        public void AddFilter(DigitalFilterType filterType, double cutoffFrequency, int filterLength)
+        public void SetFilter(DigitalFilterType filterType, double cutoffFrequency, int filterLength)
         {
             var filter = Factory.GetDigitalFilter(filterType, cutoffFrequency, filterLength);
+            DigitalFilter = filter;
         }
 
         public void RemoveFilters(DigitalFilterType filterType)
