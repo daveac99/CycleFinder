@@ -44,7 +44,7 @@ function drawChartFilters() {
    data.addColumn('number', 'Frequency');
    @Html.DisplayFor(x => x.FilterOnly) 
    data.addRows([
-        @Model.InputSignalConvolutedFormatted;
+        @Model.InputSignalConvolutedFormatted;  what i want here is a chart helper - GChart.RowsFor(InputSignalConvoluted.OutputSeries)
    ]);
    
    // Set chart options
