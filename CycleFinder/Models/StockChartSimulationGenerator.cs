@@ -46,7 +46,7 @@ namespace CycleFinder.Models
 				var wavesList = new List<WaveOutput>();
 				wavesList.Add(new WaveOutput(InputSignalSeries, "Composite"));
                 if (SineWavesSeries != null)
-				    wavesList.AddRange(SineWavesSeries.Select(x => new WaveOutput(x.InputSignalSeries, "Sine Wave")));
+				    wavesList.AddRange(SineWavesSeries.Select(x => new WaveOutput(x.InputSignalSeries, x.Label)));
                 if (LongTermTrendSeries?.InputSignalSeries != null)
 				    wavesList.Add(new WaveOutput(LongTermTrendSeries.InputSignalSeries, "Long Term Trend"));
 				return wavesList;
@@ -109,9 +109,10 @@ namespace CycleFinder.Models
 			return amplitude;
 		}
 
-		public void AddSineWave(double frequency, double amplitude, double phaseShift, string colour = "black")
+		public void AddSineWave(double frequency, double amplitude, double phaseShift, string label="", string colour = "black")
 		{
-			SineWaves.Add(new SineWave(frequency, amplitude, phaseShift, colour));
+            label = label == String.Empty ? frequency.ToString() : label;
+			SineWaves.Add(new SineWave(frequency, amplitude, phaseShift, label, colour));
 		}
 
 		//for summed waves
@@ -151,7 +152,7 @@ namespace CycleFinder.Models
 					sampleList.Add(GetInputSignalAmplitudeForSample(i, sampleFrequency, numberOfSamples, wave));
 				}
 
-				SineWavesSeries.Add(new SineWaveViewModel(sampleList, wave.Colour));
+				SineWavesSeries.Add(new SineWaveViewModel(sampleList, wave.Label, wave.Colour));
 			}
 			//long term trend
 			sampleList = new List<double>();

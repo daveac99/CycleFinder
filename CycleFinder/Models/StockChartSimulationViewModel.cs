@@ -152,9 +152,14 @@ namespace CycleFinder.Models
             FrequencyHighEndCutOff = frequencyHighEndCutOff;
 		}
 
-        public void SetFilter(DigitalFilterType filterType, double cutoffFrequency, int filterLength)
+        public void SetFilter(DigitalFilterType filterType, double cutoffFrequency, int sampleRate, int filterLength)
         {
-            var filter = Factory.GetDigitalFilter(filterType, cutoffFrequency, filterLength);
+            SetFilter(filterType, cutoffFrequency / sampleRate, filterLength);
+        }
+
+        public void SetFilter(DigitalFilterType filterType, double cutoffFrequencyRate, int filterLength)
+        {
+            var filter = Factory.GetDigitalFilter(filterType, cutoffFrequencyRate, filterLength);
             DigitalFilter = filter;
         }
 

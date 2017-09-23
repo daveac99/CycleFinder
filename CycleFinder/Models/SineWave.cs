@@ -5,12 +5,13 @@ namespace CycleFinder.Models
     {
 
 		//use this for textbook examples using hertz
-		public SineWave(double frequency, double amplitude, double phaseShift, string colour = "black")
+		public SineWave(double frequency, double amplitude, double phaseShift, string label, string colour = "black")
 		{
 			Period = 1 / frequency; //seconds
 			Frequency = frequency; //hertz
 			PeakAmplitude = amplitude;
 			PhaseShift = phaseShift;
+            Label = label;
 			Colour = colour;
 
 		}
@@ -42,6 +43,8 @@ namespace CycleFinder.Models
 			get;
 			set;
 		}
+
+        public string Label { get; set; }
 
         public double GetAmplitudeForTime(double time)
         {

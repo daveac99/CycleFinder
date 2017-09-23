@@ -41,10 +41,12 @@ function drawChartWave() {
 function drawChartFilters() {
    // Define the chart to be drawn.
    var data = new google.visualization.DataTable();
-   data.addColumn('number', 'Frequency');
-   @Html.DisplayFor(x => x.FilterOnly) 
+   data.addColumn('number', 'Time');
+   data.addColumn('number', 'Price');
    data.addRows([
-        @Model.InputSignalConvolutedFormatted;  what i want here is a chart helper - GChart.RowsFor(InputSignalConvoluted.OutputSeries)test
+       // @Model.InputSignalConvolutedFormatted;  what i want here is a chart helper - GChart.RowsFor(model => model.InputSignalConvoluted.OutputSeries)  GChart.RowsFor(model => model.Waves.Select(x => x.OutputSeries))
+	   //                                         also AddWave(x,x,x,"Wave Name")   Class Wave: Name, OutputSeries
+	    @Html.RowsFor(model => model.InputSignalConvoluted)
    ]);
    
    // Set chart options
