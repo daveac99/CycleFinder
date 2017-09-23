@@ -15,8 +15,8 @@ namespace CycleFinder.Models
 
 		//contains series for summed waves
 		internal List<double> InputSignalSeries { get; set; }
-		private List<SineWaveViewModel> SineWavesSeries { get; set; }
-		private LongTermTrendViewModel LongTermTrendSeries { get; set; }
+		public List<SineWaveViewModel> SineWavesSeries { get; set; }
+		public LongTermTrendViewModel LongTermTrendSeries { get; set; }
 
 
         public List<SineWave> SineWaves { get; set; } = new List<SineWave>();

@@ -7,6 +7,7 @@
 
 <div id="containerWave" style="width: 1000px; height: 500px; margin: 0 auto"></div>
 <div id="containerFilters" style="width: 1000px; height: 500px; margin: 0 auto"></div>
+<div id="containerKernel" style="width: 1000px; height: 500px; margin: 0 auto"></div>
 
 
 <script language="JavaScript">
@@ -43,10 +44,12 @@ function drawChartFilters() {
    var data = new google.visualization.DataTable();
    data.addColumn('number', 'Time');
    data.addColumn('number', 'Price');
+   data.addColumn('number', 'LT Price');
    data.addRows([
        // @Model.InputSignalConvolutedFormatted;  what i want here is a chart helper - GChart.RowsFor(model => model.InputSignalConvoluted.OutputSeries)  GChart.RowsFor(model => model.Waves.Select(x => x.OutputSeries))
 	   //                                         also AddWave(x,x,x,"Wave Name")   Class Wave: Name, OutputSeries
-	    @Html.RowsFor(model => model.InputSignalConvoluted)
+	   // @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, model.LongTermTrendSeries.InputSignalSeries})
+	    @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, DSP.Compound(model.SineWavesSeries[0].InputSignalSeries, model.LongTermTrendSeries.InputSignalSeries)})
    ]);
    
    // Set chart options
@@ -69,8 +72,41 @@ function drawChartFilters() {
 	chart.draw(data, options);
    //chart.draw(data, google.charts.Line.convertOptions(options));
 }
+
+function drawChartKernel() {
+   // Define the chart to be drawn.
+   var data = new google.visualization.DataTable();
+   data.addColumn('number', 'Time');
+   data.addColumn('number', 'Frequency');
+  
+   data.addRows([
+        @Html.RowsFor(model => model.DigitalFilter.Kernel)
+   ]);
+   
+   // Set chart options
+   var options = {'title' : 'Low Pass Filter',
+      
+      hAxis: {
+         title: 'Time'
+      },
+      vAxis: {
+         title: 'Frequency'
+         
+      },   
+      'width': 900, 
+      'height':500    
+   };   
+
+   // Instantiate and draw the chart.
+   //var chart = new google.charts.Line(document.getElementById('containerBandPass'));
+    var chart = new google.visualization.LineChart(document.getElementById('containerKernel'));
+    chart.draw(data, options);
+   //chart.draw(data, google.charts.Line.convertOptions(options));
+}
+	
 //google.charts.load('current', {'packages': ['line']});
 	google.charts.load('current', {'packages': ['corechart']});
 google.charts.setOnLoadCallback(drawChartWave);
 google.charts.setOnLoadCallback(drawChartFilters);
+google.charts.setOnLoadCallback(drawChartKernel);
 </script>
