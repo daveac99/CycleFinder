@@ -23,12 +23,26 @@ namespace CycleFinder.Helpers
 
         public static List<double> Compound(List<double> firstList, List<double> secondList)
         {
-            var result =
-               from i in
-            		Enumerable.Range(0, Math.Max(firstList.Count, secondList.Count))
-               select firstList.ElementAtOrDefault(i) + secondList.ElementAtOrDefault(i);
+            //var result =
+              // from i in
+            		//Enumerable.Range(0, Math.Max(firstList.Count, secondList.Count))
+               //select firstList.ElementAtOrDefault(i) + secondList.ElementAtOrDefault(i);
 
+
+            var result = Enumerable.Range(0, Math.Max(firstList.Count, secondList.Count)).Select(x => firstList.ElementAtOrDefault(x) + secondList.ElementAtOrDefault(x));
             return result.ToList();
+        }
+
+        public static List<double> Compound(List<List<double>> lists)
+        {
+            var result = lists[0];
+            for (int i = 1; i < lists.Count; i++)
+            {
+                result = Compound(result, lists[i]);
+            }
+            return result;
+
+
         }
     }
 }

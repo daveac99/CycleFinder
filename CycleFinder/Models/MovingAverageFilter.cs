@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CycleFinder.Models.DigitalFilters;
 using static System.Math;
 
 namespace CycleFinder.Models

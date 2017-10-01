@@ -17,7 +17,7 @@ namespace CycleFinder.Extensions
                 {
                     rowitem += $",{dataLists[j][i]}";
                 }
-                if (i < elementCount)
+                if (i < elementCount-1)
                     data += $"[{rowitem}],";
                 else
                     data += $"[{rowitem}]"; //last row
@@ -33,7 +33,7 @@ namespace CycleFinder.Extensions
 			var i = 0;
 			foreach (var item in dataList)
 			{
-				if (i < dataList.Count)
+				if (i < dataList.Count-1)
 					data += $"[{XMultiplier * i++},{item}],";
 				else
 					data += $"[{XMultiplier * i++},{item}]"; //last row
@@ -50,7 +50,7 @@ namespace CycleFinder.Extensions
 			var i = 0;
 			foreach (var item in dataList)
 			{
-				if (i < dataList.Count)
+				if (i < dataList.Count-1)
 					data += $"[{i++},{item}],";
 				else
 					data += $"[{i++},{item}]";
@@ -65,7 +65,7 @@ namespace CycleFinder.Extensions
 			var i = 0;
 			foreach (var item in dataList)
 			{
-				if (i++ < dataList.Count)
+				if (i++ < dataList.Count-1)
 					data += $"[{item.AngularFrequency},{item.CompositeAmplitude}],";
 				else
 					data += $"[{item.AngularFrequency},{item.CompositeAmplitude}]";
@@ -89,7 +89,7 @@ namespace CycleFinder.Extensions
 			var i = 0;
 			foreach (var item in dataList)
 			{
-				if (i++ < dataList.Count)
+				if (i++ < dataList.Count-1)
                     data += $"[{X(item)},{Y(item)}],";
 				else
                     data += $"[{X(item)},{Y(item)}]";

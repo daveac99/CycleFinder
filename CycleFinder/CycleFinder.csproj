@@ -24,6 +24,8 @@
     <Folder Include="Views\Shared\DisplayTemplates\" />
     <Folder Include="Views\RealStockChart\" />
     <Folder Include="Views\StockChartSimulation\" />
+    <Folder Include="Models\Window\" />
+    <Folder Include="Models\DigitalFilter\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\Middleware.cs" />

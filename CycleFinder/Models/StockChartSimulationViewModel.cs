@@ -4,9 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Numerics;
 using CycleFinder.Extensions;
-using static CycleFinder.Models.Fourier;
+using static CycleFinder.Helpers.Fourier;
 using CycleFinder.Models;
 using CycleFinder.Helpers;
+using CycleFinder.Models.DigitalFilters;
 
 namespace CycleFinder.Models
 {
@@ -108,7 +109,7 @@ namespace CycleFinder.Models
 		public string WaveOutputsFormatted => WaveOutputs.Select(x => x.OutputSeries).ToList().GoogleChartDataFormat();
 
 
-        public string DFT1Formatted => DFT1.GoogleChartDataFormat(SampleRateforSummedSeries/DFT1.Count);
+        public string DFT1Formatted => DFT1.GoogleChartDataFormat(SampleRateforSummedSeries/DFT1.Count);  
         public string DFT2Formatted => DFT2.GoogleChartDataFormat();
         public string FFTFormatted => FFT.GoogleChartDataFormat(SampleRateforSummedSeries / DFT1.Count);
         public string InputSignalSeriesFormatted => InputSignalSeries.GoogleChartDataFormat();

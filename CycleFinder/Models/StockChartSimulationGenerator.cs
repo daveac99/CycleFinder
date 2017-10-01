@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using static CycleFinder.Models.Fourier;
+using static CycleFinder.Helpers.Fourier;
 
 namespace CycleFinder.Models
 {

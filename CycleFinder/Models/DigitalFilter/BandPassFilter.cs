@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using static System.Math;
+using CycleFinder.Models.DigitalFilters;
 
-namespace CycleFinder.Models
+namespace CycleFinder.Models.DigitalFilters
 {
     public class BandPassFilter : DigitalFilter
     {
+        //used by factory method
+        public BandPassFilter()
+        {
+            
+        }
+
+        //this is the lanczos version
         public BandPassFilter(List<double> stockInputData, int timeSpacing, int numberOfWeights, double frequencyLowEndCutOff, double frequencyLowEndRollOff, double frequencyHighEndRollOff, double frequencyHighEndCutOff)
         {
             Wn = (104 * PI) / timeSpacing;
@@ -22,11 +30,34 @@ namespace CycleFinder.Models
             ApplyNumericalFilterToStockPrices();
         }
         protected double AngularFrequencyN { get; set; }
-  
+
+		#region static factory methods
+
+		public static BandPassFilter GetBandPassFilter(double cutoffFrequency, int filterLength)
+		{
+			var bandPassFilter = new BandPassFilter();
+			double kernelValue;
+			for (int i = 0; i < filterLength; i++)
+			{
+				if ((i - filterLength / 2) == 0)
+					kernelValue = 2 * Math.PI * cutoffFrequency;
+				else
+					kernelValue = Math.Sin(2 * Math.PI * cutoffFrequency * (i - filterLength / 2)) / (i - filterLength / 2);
+				kernelValue *= (0.54 - 0.46 * Math.Cos(2 * Math.PI * i / filterLength));
+				bandPassFilter.Kernel.Add(kernelValue);
+			}
+			//normalise the low-pass filter kernel for unit gain at DC
+			var sum = bandPassFilter.Kernel.Sum();
+			bandPassFilter.Kernel = bandPassFilter.Kernel.Select(x => x / sum).ToList();
+			bandPassFilter.Name = $"Low Pass: fc={cutoffFrequency}, M={filterLength}";
+			return bandPassFilter;
+
+		}
+
+		#endregion
 
 
-
-        protected double Wn { get; set; }
+		protected double Wn { get; set; }
         protected double W1 { get; set; }
         protected double W2 { get; set; }
         protected double W3 { get; set; }

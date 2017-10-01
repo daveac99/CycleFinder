@@ -2,6 +2,7 @@
 using CycleFinder.Models;
 using Microsoft.AspNetCore.Mvc;
 using CycleFinder.Extensions;
+using CycleFinder.Helpers;
 
 namespace CycleFinder.Controllers
 {

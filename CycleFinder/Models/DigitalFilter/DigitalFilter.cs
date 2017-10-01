@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static System.Math;
 
-namespace CycleFinder.Models
+namespace CycleFinder.Models.DigitalFilters
 {
     public abstract class DigitalFilter //dont want to actually instantiate this class (ie its abstract)
     {
@@ -52,6 +52,32 @@ namespace CycleFinder.Models
             }
             StockPricesFiltered = numericAnalysis.ToList();
 		}
+
+        public void NormaliseKernel()
+        {
+            var sum = Kernel.Aggregate((a, b) => a + b);
+            Kernel = Kernel.Select(x => x / sum).ToList();
+
+        }
+
+        protected void InvertKernel()
+        {
+            Kernel = Kernel.Select(x => -x).ToList();
+            int index = Kernel.Count / 2;
+            Kernel[index] += 1;
+                              
+        }
+
+		public  List<double> CompoundWithAnotherKernel(List<double> otherList)
+		{
+            var firstList = Kernel;
+            var secondList = otherList;
+
+			var result = Enumerable.Range(0, Math.Max(firstList.Count, secondList.Count)).Select(x => firstList.ElementAtOrDefault(x) + secondList.ElementAtOrDefault(x));
+			return result.ToList();
+		}
+
+
     }
 
     public enum DigitalFilterType
@@ -59,6 +85,14 @@ namespace CycleFinder.Models
         BandPass,
         HighPass,
         LowPass,
-        MovingAverage
+        MovingAverage,
+        WindowedSinc
+    }
+
+    public enum WindowType
+    {
+        Hamming,
+        Blackman,
+        None
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CycleFinder.Extensions;
 
-namespace CycleFinder.Models
+namespace CycleFinder.Models.DigitalFilters
 {
     public class DigitalFilterViewModel
     {

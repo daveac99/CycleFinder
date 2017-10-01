@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace CycleFinder.Models
+namespace CycleFinder.Helpers
 {
     public static class Fourier
     {
@@ -28,6 +28,11 @@ namespace CycleFinder.Models
         //        powerSpectrum[k] = cosSums[k] * cosSums[k] + sinSums[k] * sinSums[k];
         //    }
         //}
+
+        public static List<double> DFT(List<double> inputList)
+        {
+            return DFT2(inputList).Select(x => x.Magnitude).ToList();
+        }
 
         public static Complex[] DFT1(List<double> inputList)
         {
@@ -58,7 +63,7 @@ namespace CycleFinder.Models
 
             var outputArray = new Complex[inputList.Count];
 
-			for (var m = 0; m < inputList.Count; m++)
+			for (var m = 0; m <= inputList.Count/2; m++)
 			{
 			    var n = 0;
 			    var realSum = inputList.Sum(arg => arg * Math.Cos(2 * Math.PI * m * n++ / inputList.Count()));

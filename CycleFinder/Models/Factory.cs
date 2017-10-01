@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CycleFinder.Models.DigitalFilters;
 
 namespace CycleFinder.Models
 {
