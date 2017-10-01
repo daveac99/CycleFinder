@@ -53,6 +53,8 @@ namespace CycleFinder.Models.DigitalFilters
             StockPricesFiltered = numericAnalysis.ToList();
 		}
 
+
+        //filter kernel for unit gain at DC
         public void NormaliseKernel()
         {
             var sum = Kernel.Aggregate((a, b) => a + b);
@@ -60,7 +62,7 @@ namespace CycleFinder.Models.DigitalFilters
 
         }
 
-        protected void InvertKernel()
+        public void InvertKernel()
         {
             Kernel = Kernel.Select(x => -x).ToList();
             int index = Kernel.Count / 2;

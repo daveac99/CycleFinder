@@ -44,18 +44,18 @@ function drawChartFilters() {
    // Define the chart to be drawn.
    var data = new google.visualization.DataTable();
    data.addColumn('number', 'Time');
-   data.addColumn('number', 'Price');
+   data.addColumn('number', 'Conv Price');
    data.addColumn('number', 'LT Price');
    data.addRows([
        // @Model.InputSignalConvolutedFormatted;  what i want here is a chart helper - GChart.RowsFor(model => model.InputSignalConvoluted.OutputSeries)  GChart.RowsFor(model => model.Waves.Select(x => x.OutputSeries))
        //                                         also AddWave(x,x,x,"Wave Name")   Class Wave: Name, OutputSeries
        // @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, model.LongTermTrendSeries.InputSignalSeries})
-       @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, DSP.Compound(new List<List<double>> {model.SineWavesSeries[0].InputSignalSeries, model.LongTermTrendSeries.InputSignalSeries,model.SineWavesSeries[1].InputSignalSeries,model.SineWavesSeries[2].InputSignalSeries})}, 200)
+       @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, DSP.Compound(new List<List<double>> {model.SineWavesSeries[0].InputSignalSeries, model.LongTermTrendSeries.InputSignalSeries,model.SineWavesSeries[1].InputSignalSeries,model.SineWavesSeries[2].InputSignalSeries})},200)
      
    ]);
    
    // Set chart options
-   var options = {'title' : 'Band Pass Filter',
+   var options = {'title' : 'Low Pass Filter Applied to Wave Chart',
       
       hAxis: {
          title: 'Time'

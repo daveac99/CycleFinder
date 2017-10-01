@@ -25,7 +25,23 @@ namespace CycleFinder.Models
             }
         }
 
-        public static DigitalFilter GetDigitalFilter(DigitalFilterType filterType, List<double> stockInputData, int timeSpacing, int numberOfWeights, double frequencyLowEndCutOff =0, double frequencyLowEndRollOff=0, double frequencyHighEndRollOff=0, double frequencyHighEndCutOff =0)
+		public static DigitalFilter GetDigitalFilter(DigitalFilterType filterType, double cutoffFrequencyLower, double cutoffFrequencyUpper, int filterLength)
+		{
+			switch (filterType)
+			{
+				case DigitalFilterType.BandPass:
+					{
+						return BandPassFilter.GetBandPassFilter(cutoffFrequencyLower, cutoffFrequencyUpper, filterLength);
+					}
+				default:
+					{
+						throw new NotSupportedException();
+					}
+			}
+		}
+
+
+		public static DigitalFilter GetDigitalFilter(DigitalFilterType filterType, List<double> stockInputData, int timeSpacing, int numberOfWeights, double frequencyLowEndCutOff =0, double frequencyLowEndRollOff=0, double frequencyHighEndRollOff=0, double frequencyHighEndCutOff =0)
         {
             switch (filterType)
             {

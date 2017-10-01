@@ -11,7 +11,7 @@ namespace CycleFinder.Models.DigitalFilters
         //used by factory method
         public BandPassFilter()
         {
-            
+
         }
 
         //this is the lanczos version
@@ -31,25 +31,50 @@ namespace CycleFinder.Models.DigitalFilters
         }
         protected double AngularFrequencyN { get; set; }
 
+        public void someMethod()
+        {
+            var l = new BandPassFilter();
+            l.InvertKernel();
+        }
+
+
 		#region static factory methods
 
-		public static BandPassFilter GetBandPassFilter(double cutoffFrequency, int filterLength)
+        //this is the version from the DSP book
+		public static BandPassFilter GetBandPassFilter(double cutoffFrequencyLower, double cutoffFrequencyUpper, int filterLength)
 		{
-			var bandPassFilter = new BandPassFilter();
-			double kernelValue;
-			for (int i = 0; i < filterLength; i++)
-			{
-				if ((i - filterLength / 2) == 0)
-					kernelValue = 2 * Math.PI * cutoffFrequency;
-				else
-					kernelValue = Math.Sin(2 * Math.PI * cutoffFrequency * (i - filterLength / 2)) / (i - filterLength / 2);
-				kernelValue *= (0.54 - 0.46 * Math.Cos(2 * Math.PI * i / filterLength));
-				bandPassFilter.Kernel.Add(kernelValue);
-			}
-			//normalise the low-pass filter kernel for unit gain at DC
-			var sum = bandPassFilter.Kernel.Sum();
-			bandPassFilter.Kernel = bandPassFilter.Kernel.Select(x => x / sum).ToList();
-			bandPassFilter.Name = $"Low Pass: fc={cutoffFrequency}, M={filterLength}";
+			var lowPassFilter = new LowPassFilter();
+
+            //first low pass filter for lower cutoff
+            var windowType = WindowType.None;
+			var windowedSinc = new WindowedSinc(cutoffFrequencyLower, filterLength, windowType);
+			windowedSinc.NormaliseKernel();
+			lowPassFilter.Kernel = windowedSinc.Kernel;
+
+            var highPassFilter = new LowPassFilter();
+            windowedSinc = new WindowedSinc(cutoffFrequencyUpper, filterLength, windowType);
+            windowedSinc.NormaliseKernel();
+            highPassFilter.Kernel = windowedSinc.Kernel;
+            highPassFilter.InvertKernel();
+
+            //add low and high pass to make a band reject filter
+            var bandPassFilter = new BandPassFilter();
+            //bandPassFilter.Kernel = lowPassFilter.Kernel;
+            //bandPassFilter.CompoundWithAnotherKernel(highPassFilter.Kernel);
+            var summedList = new List<double>();
+            double sum;
+            for (int i = 0; i < lowPassFilter.Kernel.Count; i++)
+            {
+                sum = lowPassFilter.Kernel[i] + highPassFilter.Kernel[i];
+                summedList.Add(sum);
+            }
+            bandPassFilter.Kernel = summedList;
+
+            //change band reject into band pass using spectral inversion
+            bandPassFilter.InvertKernel();
+
+            bandPassFilter.Name = $"Band Pass: fcl={cutoffFrequencyLower} fcu={cutoffFrequencyUpper}, M={filterLength}";
+            //bandPassFilter.Kernel = highPassFilter.Kernel; //TODO remove
 			return bandPassFilter;
 
 		}

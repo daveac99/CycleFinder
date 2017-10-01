@@ -15,6 +15,8 @@ namespace CycleFinder.Models.DigitalFilters
         public static LowPassFilter GetLowPassFilter(double cutoffFrequency, int filterLength)
         {
             var lowPassFilter = new LowPassFilter();
+           
+            //old code
             //double kernelValue;
             //for (int i = 0; i < filterLength; i++)
             //{
@@ -29,7 +31,8 @@ namespace CycleFinder.Models.DigitalFilters
             //var sum = lowPassFilter.Kernel.Sum();
             //lowPassFilter.Kernel = lowPassFilter.Kernel.Select(x => x / sum).ToList();
 
-            var windowedSinc = new WindowedSinc(cutoffFrequency, filterLength, WindowType.Hamming);
+            //new code
+            var windowedSinc = new WindowedSinc(cutoffFrequency, filterLength, WindowType.Blackman);
             windowedSinc.NormaliseKernel();
             lowPassFilter.Kernel = windowedSinc.Kernel;
 

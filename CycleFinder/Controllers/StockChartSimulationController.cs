@@ -45,7 +45,7 @@ namespace CycleFinder.Controllers
 			return View(viewmodel);
 		}
 
-		public IActionResult BandPassFilteredChart()
+		public IActionResult BandPassFilteredChartWithParams()
 		{
 			ViewData["Message"] = "Band Pass filter Chart.";
 
@@ -72,7 +72,7 @@ namespace CycleFinder.Controllers
 		}
 
         [HttpPost]
-        public IActionResult BandPassFilteredChart(StockChartSimulationViewModel stockChartSimulationViewModel)
+        public IActionResult BandPassFilteredChartWithParams(StockChartSimulationViewModel stockChartSimulationViewModel)
         {
             stockChartSimulationViewModel.RemoveFilters(DigitalFilterType.BandPass);
             stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass); //use the properties set in the view
@@ -100,7 +100,7 @@ namespace CycleFinder.Controllers
 																												//viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
 			//stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.015, 100);
             //stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.12, 52, 501); //this works well!
-            stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 2.8, 52, 301); //this works well!! what I've learned here is the fast rolloff gives better results when frequencies are close together
+            stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 2.9, 52, 301); //this works well!! what I've learned here is the fast rolloff gives better results when frequencies are close together
                                                                                               //	stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass, 7, 199, 0.14, 0.2, 0.30, 0.36); //sets property values as well
                                                                                               //TODO show the filter and the DFT of the filter
 
@@ -108,6 +108,37 @@ namespace CycleFinder.Controllers
             // var anotherThing = new List<List<double>> { stockChartSimulationViewModel.InputSignalConvoluted, DSP.Convolve(stockChartSimulationViewModel.SineWavesSeries[0].InputSignalSeries, stockChartSimulationViewModel.LongTermTrendSeries.InputSignalSeries) }; //good case for an indexer here instead of 0
 
             return View(stockChartSimulationViewModel);
+		}
+
+
+		public IActionResult BandPassFilteredChart()
+		{
+			ViewData["Message"] = "Band Pass filter Chart.";
+
+			//just use ViewBag for viewmodel for the moment
+
+			var stockChartSimulationViewModel = new StockChartSimulationViewModel(); //TODO create a StockChartViewModel which inherits from SineWaveViewModel
+																					 //viewmodel.AddSineWave(1000,1,0,"blue");
+																					 //viewmodel.AddSineWave(2000,.5, .75 * Math.PI,"green");
+			stockChartSimulationViewModel.AddSineWave(0.25, 90, 0, "0.25"); //2
+			stockChartSimulationViewModel.AddSineWave(0.4, 45, 0, "0.67"); //3
+			stockChartSimulationViewModel.AddSineWave(1, 35, 0, "1");    //4
+			stockChartSimulationViewModel.AddSineWave(3, 30, 0, "3");    //5
+			stockChartSimulationViewModel.AddSineWave(5, 25, 0, "5");    //6
+			stockChartSimulationViewModel.LongTermTrend = new LongTermTrend(100, 30, 0.1, 100, 0); //1
+			stockChartSimulationViewModel.GetInputSignalSeriesPerWave(2000, 52);
+			stockChartSimulationViewModel.GetInputSignalSeriesSummed(2000, 52);
+			//viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
+			//stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.015, 100);
+			//stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.12, 52, 501); //this works well!
+            stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 2.5, 3.5, 52, 701); //this works well!! what I've learned here is the fast rolloff gives better results when frequencies are close together
+																							  //    stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass, 7, 199, 0.14, 0.2, 0.30, 0.36); //sets property values as well
+																							  //TODO show the filter and the DFT of the filter
+
+			// var thing = new List<List<double>> { stockChartSimulationViewModel.InputSignalConvoluted, stockChartSimulationViewModel.LongTermTrendSeries.InputSignalSeries};
+			// var anotherThing = new List<List<double>> { stockChartSimulationViewModel.InputSignalConvoluted, DSP.Convolve(stockChartSimulationViewModel.SineWavesSeries[0].InputSignalSeries, stockChartSimulationViewModel.LongTermTrendSeries.InputSignalSeries) }; //good case for an indexer here instead of 0
+
+			return View(stockChartSimulationViewModel);
 		}
 	}
 }
