@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using static System.Math;
-using CycleFinder.Models.DigitalFilters;
 
 namespace CycleFinder.Models.DigitalFilters
 {
@@ -46,7 +45,7 @@ namespace CycleFinder.Models.DigitalFilters
 			var lowPassFilter = new LowPassFilter();
 
             //first low pass filter for lower cutoff
-            var windowType = WindowType.None;
+            var windowType = WindowType.Blackman;
 			var windowedSinc = new WindowedSinc(cutoffFrequencyLower, filterLength, windowType);
 			windowedSinc.NormaliseKernel();
 			lowPassFilter.Kernel = windowedSinc.Kernel;
@@ -59,16 +58,8 @@ namespace CycleFinder.Models.DigitalFilters
 
             //add low and high pass to make a band reject filter
             var bandPassFilter = new BandPassFilter();
-            //bandPassFilter.Kernel = lowPassFilter.Kernel;
-            //bandPassFilter.CompoundWithAnotherKernel(highPassFilter.Kernel);
-            var summedList = new List<double>();
-            double sum;
-            for (int i = 0; i < lowPassFilter.Kernel.Count; i++)
-            {
-                sum = lowPassFilter.Kernel[i] + highPassFilter.Kernel[i];
-                summedList.Add(sum);
-            }
-            bandPassFilter.Kernel = summedList;
+            
+            bandPassFilter.Kernel = bandPassFilter.Compound(lowPassFilter.Kernel, highPassFilter.Kernel);
 
             //change band reject into band pass using spectral inversion
             bandPassFilter.InvertKernel();

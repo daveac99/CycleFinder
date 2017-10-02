@@ -120,23 +120,27 @@ namespace CycleFinder.Controllers
 			var stockChartSimulationViewModel = new StockChartSimulationViewModel(); //TODO create a StockChartViewModel which inherits from SineWaveViewModel
 																					 //viewmodel.AddSineWave(1000,1,0,"blue");
 																					 //viewmodel.AddSineWave(2000,.5, .75 * Math.PI,"green");
-			stockChartSimulationViewModel.AddSineWave(0.25, 90, 0, "0.25"); //2
-			stockChartSimulationViewModel.AddSineWave(0.4, 45, 0, "0.67"); //3
-			stockChartSimulationViewModel.AddSineWave(1, 35, 0, "1");    //4
-			stockChartSimulationViewModel.AddSineWave(3, 30, 0, "3");    //5
-			stockChartSimulationViewModel.AddSineWave(5, 25, 0, "5");    //6
+			stockChartSimulationViewModel.AddSineWave(0.25, 90, 0, "0.25"); //0
+			stockChartSimulationViewModel.AddSineWave(0.4, 45, 0, "0.67"); //1
+			stockChartSimulationViewModel.AddSineWave(1, 35, 0, "1");    //2
+			stockChartSimulationViewModel.AddSineWave(3, 30, 0, "3");    //3
+			stockChartSimulationViewModel.AddSineWave(5, 25, 0, "5");    //4
 			stockChartSimulationViewModel.LongTermTrend = new LongTermTrend(100, 30, 0.1, 100, 0); //1
 			stockChartSimulationViewModel.GetInputSignalSeriesPerWave(2000, 52);
 			stockChartSimulationViewModel.GetInputSignalSeriesSummed(2000, 52);
 			//viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
-			//stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.015, 100);
-			//stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.12, 52, 501); //this works well!
-            stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 2.5, 3.5, 52, 701); //this works well!! what I've learned here is the fast rolloff gives better results when frequencies are close together
-																							  //    stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass, 7, 199, 0.14, 0.2, 0.30, 0.36); //sets property values as well
-																							  //TODO show the filter and the DFT of the filter
+			
+            //stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 2.5, 3.5, 52, 301); //301 gives a perfect match for frequency and amplitude!!
+            //stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 0.8, 1.2, 52, 501); //501 needed in this case due to lower frequency, and gives a perfect match for the frequency and amplitude
+                                                                                                      //I also note you need higher M to give same amount of waves in the filter gor lower frequencies
+            stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 0.23, 0.27, 52, 1501);
 
 			// var thing = new List<List<double>> { stockChartSimulationViewModel.InputSignalConvoluted, stockChartSimulationViewModel.LongTermTrendSeries.InputSignalSeries};
 			// var anotherThing = new List<List<double>> { stockChartSimulationViewModel.InputSignalConvoluted, DSP.Convolve(stockChartSimulationViewModel.SineWavesSeries[0].InputSignalSeries, stockChartSimulationViewModel.LongTermTrendSeries.InputSignalSeries) }; //good case for an indexer here instead of 0
+
+
+            //I think its better to have matching properties in the view model for the chart outputs
+            //that way its centralised and controlled in the one spot (by the controller)
 
 			return View(stockChartSimulationViewModel);
 		}

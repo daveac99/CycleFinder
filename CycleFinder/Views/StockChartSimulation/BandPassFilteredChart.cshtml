@@ -50,7 +50,7 @@ function drawChartFilters() {
        // @Model.InputSignalConvolutedFormatted;  what i want here is a chart helper - GChart.RowsFor(model => model.InputSignalConvoluted.OutputSeries)  GChart.RowsFor(model => model.Waves.Select(x => x.OutputSeries))
        //                                         also AddWave(x,x,x,"Wave Name")   Class Wave: Name, OutputSeries
        // @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, model.LongTermTrendSeries.InputSignalSeries})
-       @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, model.SineWavesSeries[3].InputSignalSeries},800)
+       @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, model.SineWavesSeries[0].InputSignalSeries})
      
    ]);
    
@@ -113,7 +113,7 @@ function drawChartKernelFrequencyResponse() {
    data.addColumn('number', 'Amplitude');
   
    data.addRows([
-        @Html.RowsFor(model => Fourier.DFT(model.DigitalFilter.Kernel), model => model.SampleRateforSummedSeries/model.DigitalFilter.Kernel.Count ) 
+        @Html.RowsFor(model => Fourier.DFT(model.DigitalFilter.Kernel), model => model.SampleRateforSummedSeries/model.DigitalFilter.Kernel.Count, 20 ) 
    ]);
    
    // Set chart options

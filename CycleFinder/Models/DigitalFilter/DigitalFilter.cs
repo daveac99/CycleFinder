@@ -70,17 +70,27 @@ namespace CycleFinder.Models.DigitalFilters
                               
         }
 
-		public  List<double> CompoundWithAnotherKernel(List<double> otherList)
-		{
-            var firstList = Kernel;
-            var secondList = otherList;
 
-			var result = Enumerable.Range(0, Math.Max(firstList.Count, secondList.Count)).Select(x => firstList.ElementAtOrDefault(x) + secondList.ElementAtOrDefault(x));
+		public List<double> Compound(List<double> firstList, List<double> secondList)
+		{
+			var result = Enumerable.Range(0, Math.Max(firstList.Count, secondList.Count))
+                                   .Select(x => firstList.ElementAtOrDefault(x) + secondList.ElementAtOrDefault(x));
 			return result.ToList();
 		}
 
+		public List<double> Compound(List<List<double>> lists)
+		{
+			var result = lists[0];
+			for (int i = 1; i < lists.Count; i++)
+			{
+				result = Compound(result, lists[i]);
+			}
+			return result;
 
-    }
+
+		}
+	}
+
 
     public enum DigitalFilterType
     {
