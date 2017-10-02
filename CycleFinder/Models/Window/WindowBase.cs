@@ -9,6 +9,7 @@ namespace CycleFinder.Models.Window
         {
         }
 
+        //property to hold of applying a window to the list
         public List<double> Result { get; set; }
     }
 }
