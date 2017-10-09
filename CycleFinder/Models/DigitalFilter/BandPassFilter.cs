@@ -40,12 +40,11 @@ namespace CycleFinder.Models.DigitalFilters
 		#region static factory methods
 
         //this is the version from the DSP book
-		public static BandPassFilter GetBandPassFilter(double cutoffFrequencyLower, double cutoffFrequencyUpper, int filterLength)
+		public static BandPassFilter GetBandPassFilter(double cutoffFrequencyLower, double cutoffFrequencyUpper, int filterLength, WindowType windowType)
 		{
 			var lowPassFilter = new LowPassFilter();
 
             //first low pass filter for lower cutoff
-            var windowType = WindowType.Blackman;
 			var windowedSinc = new WindowedSinc(cutoffFrequencyLower, filterLength, windowType);
 			windowedSinc.NormaliseKernel();
 			lowPassFilter.Kernel = windowedSinc.Kernel;

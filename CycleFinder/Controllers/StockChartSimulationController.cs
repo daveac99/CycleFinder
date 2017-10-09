@@ -100,7 +100,7 @@ namespace CycleFinder.Controllers
 																												//viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
 			//stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.015, 100);
             //stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.12, 52, 501); //this works well!
-            stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 2.9, 52, 301); //this works well!! what I've learned here is the fast rolloff gives better results when frequencies are close together
+             //this works well!! what I've learned here is the fast rolloff gives better results when frequencies are close together
                                                                                               //	stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass, 7, 199, 0.14, 0.2, 0.30, 0.36); //sets property values as well
                                                                                               //TODO show the filter and the DFT of the filter
 
@@ -133,7 +133,7 @@ namespace CycleFinder.Controllers
             //stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 2.5, 3.5, 52, 301); //301 gives a perfect match for frequency and amplitude!!
             //stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 0.8, 1.2, 52, 501); //501 needed in this case due to lower frequency, and gives a perfect match for the frequency and amplitude
                                                                                                       //I also note you need higher M to give same amount of waves in the filter gor lower frequencies
-            stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 0.23, 0.27, 52, 1501);
+            stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 0.2, 0.3, 52, 901, WindowType.None); //Notes: when bandwidth was too close the amplitude was too low ie .23 low end cutoff and .27 high cutoff
 
 			// var thing = new List<List<double>> { stockChartSimulationViewModel.InputSignalConvoluted, stockChartSimulationViewModel.LongTermTrendSeries.InputSignalSeries};
 			// var anotherThing = new List<List<double>> { stockChartSimulationViewModel.InputSignalConvoluted, DSP.Convolve(stockChartSimulationViewModel.SineWavesSeries[0].InputSignalSeries, stockChartSimulationViewModel.LongTermTrendSeries.InputSignalSeries) }; //good case for an indexer here instead of 0

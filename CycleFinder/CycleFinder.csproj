@@ -22,7 +22,7 @@
     <Folder Include="Extensions\" />
     <Folder Include="Utils\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
-    <Folder Include="Views\RealStockChart\" />
+    <Folder Include="Views\RealChart\" />
     <Folder Include="Views\StockChartSimulation\" />
     <Folder Include="Models\Window\" />
     <Folder Include="Models\DigitalFilter\" />

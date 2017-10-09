@@ -25,13 +25,13 @@ namespace CycleFinder.Models
             }
         }
 
-		public static DigitalFilter GetDigitalFilter(DigitalFilterType filterType, double cutoffFrequencyLower, double cutoffFrequencyUpper, int filterLength)
+        public static DigitalFilter GetDigitalFilter(DigitalFilterType filterType, double cutoffFrequencyLower, double cutoffFrequencyUpper, int filterLength, WindowType windowType)
 		{
 			switch (filterType)
 			{
 				case DigitalFilterType.BandPass:
 					{
-						return BandPassFilter.GetBandPassFilter(cutoffFrequencyLower, cutoffFrequencyUpper, filterLength);
+						return BandPassFilter.GetBandPassFilter(cutoffFrequencyLower, cutoffFrequencyUpper, filterLength, windowType);
 					}
 				default:
 					{
