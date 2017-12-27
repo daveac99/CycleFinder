@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using static CycleFinder.Helpers.Fourier;
-using CycleFinder.Extensions;
 
 namespace CycleFinder.Models
 {
-    public class StockChartSimulationGenerator : ChartViewModel
+    public class StockChartSimulationGenerator
     {
         public StockChartSimulationGenerator()
         {
@@ -15,7 +14,7 @@ namespace CycleFinder.Models
         }
 
 		//contains series for summed waves
-		
+		internal List<double> InputSignalSeries { get; set; }
 		public List<SineWaveViewModel> SineWavesSeries { get; set; }
 		public LongTermTrendViewModel LongTermTrendSeries { get; set; }
 
@@ -23,21 +22,20 @@ namespace CycleFinder.Models
         public List<SineWave> SineWaves { get; set; } = new List<SineWave>();
 		public LongTermTrend LongTermTrend { get; set; }
 
-        internal List<double> DFT1 => DFT1(InputSignalSeries).Select(x => x.Magnitude).ToList();
-        internal List<double> DFT2 => DFT2(InputSignalSeries).Select(x => x.Magnitude).ToList();
-        internal List<double> FFT
-        {
-            get
-            {
-                Complex[] input = InputSignalSeries.Select(x => new Complex(x, 0)).ToArray();
-                FFT(input);
-                return input.Select(x => x.Magnitude).ToList();
-            }
-        }
+		internal List<double> DFT1 => DFT1(InputSignalSeries).Select(x => x.Magnitude).ToList();
+		internal List<double> DFT2 => DFT2(InputSignalSeries).Select(x => x.Magnitude).ToList();
+		internal List<double> FFT
+		{
+			get
+			{
+				Complex[] input = InputSignalSeries.Select(x => new Complex(x, 0)).ToArray();
+				FFT(input);
+				return input.Select(x => x.Magnitude).ToList();
+			}
+		}
 
-        public string DFT1Formatted => DFT1.GoogleChartDataFormat(SampleRateforSummedSeries / DFT1.Count);
-        public string DFT2Formatted => DFT2.GoogleChartDataFormat();
-        public string FFTFormatted => FFT.GoogleChartDataFormat(SampleRateforSummedSeries / DFT1.Count);
+
+
 
 
 

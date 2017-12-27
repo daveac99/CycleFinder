@@ -11,14 +11,11 @@ using CycleFinder.Models.DigitalFilters;
 
 namespace CycleFinder.Models
 {
-    public class ChartViewModel
+    public class ChartViewModel : StockChartSimulationGenerator
     {
         public ChartViewModel()
         {
         }
-
-        //this is used for the commodity/stock or simulated commodity stock
-        internal List<double> InputSignalSeries { get; set; }
 
 		public DigitalFilter DigitalFilter { get; set; }
 		public List<Double> InputSignalConvoluted => DSP.Convolve(InputSignalSeries, DigitalFilter.Kernel);
@@ -56,6 +53,9 @@ namespace CycleFinder.Models
 		public string FilterOnlyFrequencyResponseFormatted => FilterOnlyFrequencyResponse.Select(x => x.OutputSeries).ToList().GoogleChartDataFormat();
 		
 
+		public string DFT1Formatted => DFT1.GoogleChartDataFormat(SampleRateforSummedSeries / DFT1.Count);
+		public string DFT2Formatted => DFT2.GoogleChartDataFormat();
+		public string FFTFormatted => FFT.GoogleChartDataFormat(SampleRateforSummedSeries / DFT1.Count);
 		public string InputSignalSeriesFormatted => InputSignalSeries.GoogleChartDataFormat();
 
 		//input fields

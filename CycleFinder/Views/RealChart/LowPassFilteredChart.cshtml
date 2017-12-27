@@ -1,4 +1,4 @@
-﻿@model CycleFinder.Models.RealChartViewModel
+﻿@model CycleFinder.Models.StockChartSimulationViewModel
 
 @{
     ViewData["Title"] = "About";
@@ -16,9 +16,9 @@ function drawChartWave() {
    // Define the chart to be drawn.
    var data = new google.visualization.DataTable();
    data.addColumn('number', 'Time');
-   data.addColumn('number', 'Price');
+   @Html.DisplayFor(x => x.WaveOutputs) //adds column per wave
    data.addRows([
-   @Html.RowsFor(model => model.Commodity);
+        @Model.OilChart
    ]);
    
    // Set chart options
@@ -44,10 +44,10 @@ function drawChartFilters() {
    // Define the chart to be drawn.
    var data = new google.visualization.DataTable();
    data.addColumn('number', 'Time');
-   data.addColumn('number', 'Filter Price');
-   data.addColumn('number', 'Comm Price');
+   data.addColumn('number', 'Conv Price');
+   data.addColumn('number', 'LT Price');
    data.addRows([
-       @Html.RowsFor(model => new List<List<double>> { model.FilteredCommodity, model.Commodity},200)
+       @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, model.InputSignalSeries},200)
 	   
      
    ]);
@@ -111,7 +111,7 @@ function drawChartKernelFrequencyResponse() {
    data.addColumn('number', 'Amplitude');
   
    data.addRows([
-        @Html.RowsFor(model => Fourier.DFT(model.DigitalFilter.Kernel), model => model.SampleRate/model.DigitalFilter.Kernel.Count, 20 ) 
+        @Html.RowsFor(model => Fourier.DFT(model.DigitalFilter.Kernel), model => model.SampleRateforSummedSeries/model.DigitalFilter.Kernel.Count, 20 ) 
    ]);
    
    // Set chart options

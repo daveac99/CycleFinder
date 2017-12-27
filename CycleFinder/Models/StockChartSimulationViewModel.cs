@@ -11,7 +11,7 @@ using CycleFinder.Models.DigitalFilters;
 
 namespace CycleFinder.Models
 {
-    public class StockChartSimulationViewModel : StockChartSimulationGenerator
+    public class StockChartSimulationViewModel : ChartViewModel
     {
         public StockChartSimulationViewModel()
         {
@@ -71,6 +71,16 @@ namespace CycleFinder.Models
 		//	}
 		//}
 
+        public List<WaveOutput> FilterOnly
+		{
+			get
+			{
+				var wavesList = new List<WaveOutput>();
+
+				wavesList.AddRange(Filters.Select(x => new WaveOutput(x.NumericAnalysis, $"{x.FilterType}: {x.Parameters}")));
+				return wavesList;
+			}
+		}
 
 
 

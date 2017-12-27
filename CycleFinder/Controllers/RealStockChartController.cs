@@ -48,22 +48,22 @@ namespace CycleFinder.Controllers
 
 		public IActionResult RealOilChartLowPass()
 		{
-			ViewData["Message"] = "Crude Oil Data Chart with Low Pass Band Filter.";
+			ViewData["Message"] = "Crude Oil Data Chart with Fourier Analysis.";
 
             //just use ViewBag for viewmodel for the moment
 
-            var viewModel = new RealChartViewModel();
+            var viewModel = new ChartViewModel();
 
 			var inputSignalsOil = InputSignal.GetInputData(@"/Users/davidcampbell/Downloads/Crude Oil WTI Futures Historical Data.csv").inputSignalList;
 			inputSignalsOil.Reverse();
             viewModel.InputSignalSeries = inputSignalsOil;
-            viewModel.SampleRate = 52;
-			var frequencyConverter = viewModel.SampleRate / (double)inputSignalsOil.Count;
-		
+			var frequencyConverter = 52 / (double)inputSignalsOil.Count;
+			ViewBag.DFT = Fourier.DFT(inputSignalsOil).GoogleChartDataFormat(frequencyConverter);  //ie sample rate of 52 weeks per year divided by number of samples
+
             viewModel.SetFilter(DigitalFilterType.LowPass, 2.9, 52, 301);
 
 
-			return View(viewModel);
+			return View();
 
 			//low cycles @ 0.26, 0.923 cycles per year
 
