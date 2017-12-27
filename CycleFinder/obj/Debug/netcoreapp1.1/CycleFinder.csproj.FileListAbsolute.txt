@@ -1,0 +1,11 @@
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\bin\Debug\netcoreapp1.1\CycleFinder.deps.json
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\bin\Debug\netcoreapp1.1\CycleFinder.runtimeconfig.json
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\bin\Debug\netcoreapp1.1\CycleFinder.runtimeconfig.dev.json
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\bin\Debug\netcoreapp1.1\CycleFinder.dll
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\bin\Debug\netcoreapp1.1\CycleFinder.pdb
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\obj\Debug\netcoreapp1.1\CycleFinder.csproj.CoreCompileInputs.cache
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\obj\Debug\netcoreapp1.1\CycleFinder.AssemblyInfoInputs.cache
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\obj\Debug\netcoreapp1.1\CycleFinder.AssemblyInfo.cs
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\obj\Debug\netcoreapp1.1\CycleFinder.dll
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\obj\Debug\netcoreapp1.1\CycleFinder.pdb
+C:\Users\Dave\Source\Repos\CycleFinder\CycleFinder\obj\Debug\netcoreapp1.1\CycleFinder.csprojResolveAssemblyReference.cache
