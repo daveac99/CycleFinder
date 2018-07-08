@@ -47,8 +47,8 @@ function drawChartFilters() {
    data.addColumn('number', 'Conv Price');
    data.addColumn('number', 'LT Price');
    data.addRows([
-       // @Model.InputSignalConvolutedFormatted;  what i want here is a chart helper - GChart.RowsFor(model => model.InputSignalConvoluted.OutputSeries)  GChart.RowsFor(model => model.Waves.Select(x => x.OutputSeries))
-       //                                         also AddWave(x,x,x,"Wave Name")   Class Wave: Name, OutputSeries
+       @*// @Model.InputSignalConvolutedFormatted;  what i want here is a chart helper - GChart.RowsFor(model => model.InputSignalConvoluted.OutputSeries)  GChart.RowsFor(model => model.Waves.Select(x => x.OutputSeries))
+       //                                         also AddWave(x,x,x,"Wave Name")   Class Wave: Name, OutputSeries*@
        // @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, model.LongTermTrendSeries.InputSignalSeries})
        @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, model.SineWavesSeries[0].InputSignalSeries})
      

@@ -6,15 +6,15 @@ using static CycleFinder.Helpers.Fourier;
 
 namespace CycleFinder.Models
 {
-    public class StockChartSimulationGenerator
+    public class StockChartSimulationGenerator : ChartViewModel
     {
+        //SRP: Reason to change is if we needed to change the way generation is done
         public StockChartSimulationGenerator()
         {
 			
         }
 
 		//contains series for summed waves
-		internal List<double> InputSignalSeries { get; set; }
 		public List<SineWaveViewModel> SineWavesSeries { get; set; }
 		public LongTermTrendViewModel LongTermTrendSeries { get; set; }
 
@@ -33,11 +33,6 @@ namespace CycleFinder.Models
 				return input.Select(x => x.Magnitude).ToList();
 			}
 		}
-
-
-
-
-
 
 		public List<WaveOutput> WaveOutputs
 		{
@@ -93,21 +88,7 @@ namespace CycleFinder.Models
 		//}
 
 		//per wave
-		public double GetInputSignalAmplitudeForSample(int sampleNo, double sampleFequency, int numberOfSamples, SineWave wave)
-		{
-			var sampleTime = 1 / sampleFequency;
-			var amplitude = GetInputSignalAmplitudeForTime(sampleNo * sampleTime, wave);
 
-			return amplitude;
-		}
-
-		public double GetTrendAmplitudeForSample(int sampleNo, double sampleFequency, int numberOfSamples)
-		{
-			var sampleTime = 1 / sampleFequency;
-			var amplitude = GetTrendAmplitudeForTime(sampleNo * sampleTime);
-
-			return amplitude;
-		}
 
 		public void AddSineWave(double frequency, double amplitude, double phaseShift, string label="", string colour = "black")
 		{
@@ -116,7 +97,7 @@ namespace CycleFinder.Models
 		}
 
 		//for summed waves
-		public void GetInputSignalSeriesSummed(int numberOfSamples, double sampleFrequency)
+		public void SetInputSignalSeriesSummed(int numberOfSamples, double sampleFrequency)
 		{
 			SampleRateforSummedSeries = sampleFrequency;
 			var sampleList = new List<double>();
@@ -134,13 +115,25 @@ namespace CycleFinder.Models
 
 				sampleList.Add(amplitude);
 			}
-
-
 			InputSignalSeries = sampleList;
+		}
+		private double GetInputSignalAmplitudeForSample(int sampleNo, double sampleFequency, int numberOfSamples, SineWave wave)
+		{
+			var sampleTime = 1 / sampleFequency;
+			var amplitude = GetInputSignalAmplitudeForTime(sampleNo * sampleTime, wave);
+
+			return amplitude;
+		}
+		private double GetTrendAmplitudeForSample(int sampleNo, double sampleFequency, int numberOfSamples)
+		{
+			var sampleTime = 1 / sampleFequency;
+			var amplitude = GetTrendAmplitudeForTime(sampleNo * sampleTime);
+
+			return amplitude;
 		}
 
 		//per wave
-		public void GetInputSignalSeriesPerWave(int numberOfSamples, double sampleFrequency)
+		public void SetInputSignalSeriesPerWave(int numberOfSamples, double sampleFrequency)
 		{
 			SineWavesSeries = new List<SineWaveViewModel>();
 			var sampleList = new List<double>();

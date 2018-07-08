@@ -11,13 +11,16 @@ using CycleFinder.Models.DigitalFilters;
 
 namespace CycleFinder.Models
 {
-    public class ChartViewModel : StockChartSimulationGenerator
+    public class ChartViewModel 
     {
+        //Responsibilities: Changed the way we view the data
         public ChartViewModel()
         {
         }
 
-		public DigitalFilter DigitalFilter { get; set; }
+        internal List<double> InputSignalSeries { get; set; }
+
+        public DigitalFilter DigitalFilter { get; set; }
 		public List<Double> InputSignalConvoluted => DSP.Convolve(InputSignalSeries, DigitalFilter.Kernel);
 		public string InputSignalConvolutedFormatted => InputSignalConvoluted.GoogleChartDataFormat();
 
@@ -53,9 +56,6 @@ namespace CycleFinder.Models
 		public string FilterOnlyFrequencyResponseFormatted => FilterOnlyFrequencyResponse.Select(x => x.OutputSeries).ToList().GoogleChartDataFormat();
 		
 
-		public string DFT1Formatted => DFT1.GoogleChartDataFormat(SampleRateforSummedSeries / DFT1.Count);
-		public string DFT2Formatted => DFT2.GoogleChartDataFormat();
-		public string FFTFormatted => FFT.GoogleChartDataFormat(SampleRateforSummedSeries / DFT1.Count);
 		public string InputSignalSeriesFormatted => InputSignalSeries.GoogleChartDataFormat();
 
 		//input fields
@@ -85,7 +85,7 @@ namespace CycleFinder.Models
 		public void AddFilter(DigitalFilterType filterType, int timeSpacing, int numberOfWeights, double frequencyLowEndCutOff, double frequencyLowEndRollOff, double frequencyHighEndRollOff, double frequencyHighEndCutOff)
 		{
 
-			var filter = Factory.GetDigitalFilter(filterType, InputSignalSeries, timeSpacing, numberOfWeights, frequencyLowEndCutOff, frequencyLowEndRollOff, frequencyHighEndRollOff, frequencyHighEndCutOff);
+			var filter = Factory.SetDigitalFilter(filterType, InputSignalSeries, timeSpacing, numberOfWeights, frequencyLowEndCutOff, frequencyLowEndRollOff, frequencyHighEndRollOff, frequencyHighEndCutOff);
 
 			Filters.Add(new DigitalFilterViewModel(filterType, $"Weights: {numberOfWeights}", filter));
 			//set the view model properties
@@ -110,14 +110,14 @@ namespace CycleFinder.Models
 		//sets DigitalFilter property for lower/upper cutoff
 		public void SetFilter(DigitalFilterType filterType, double cutoffFrequencyRate, int filterLength)
 		{
-			var filter = Factory.GetDigitalFilter(filterType, cutoffFrequencyRate, filterLength);
+			var filter = Factory.SetDigitalFilter(filterType, cutoffFrequencyRate, filterLength);
 			DigitalFilter = filter;
 		}
 
 		//sets DigitalFilter property for band
 		public void SetFilter(DigitalFilterType filterType, double cutoffFrequencyRateLower, double cutoffFrequencyRateUpper, int filterLength, WindowType windowType)
 		{
-			var filter = Factory.GetDigitalFilter(filterType, cutoffFrequencyRateLower, cutoffFrequencyRateUpper, filterLength, windowType);
+			var filter = Factory.SetDigitalFilter(filterType, cutoffFrequencyRateLower, cutoffFrequencyRateUpper, filterLength, windowType);
 			DigitalFilter = filter;
 		}
 

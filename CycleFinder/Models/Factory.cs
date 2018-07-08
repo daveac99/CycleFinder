@@ -10,7 +10,7 @@ namespace CycleFinder.Models
         {
         }
 
-        public static DigitalFilter GetDigitalFilter(DigitalFilterType filterType, double cutoffFrequency, int filterLength)
+        public static DigitalFilter SetDigitalFilter(DigitalFilterType filterType, double cutoffFrequency, int filterLength)
         {
             switch (filterType)
             {
@@ -25,7 +25,7 @@ namespace CycleFinder.Models
             }
         }
 
-        public static DigitalFilter GetDigitalFilter(DigitalFilterType filterType, double cutoffFrequencyLower, double cutoffFrequencyUpper, int filterLength, WindowType windowType)
+        public static DigitalFilter SetDigitalFilter(DigitalFilterType filterType, double cutoffFrequencyLower, double cutoffFrequencyUpper, int filterLength, WindowType windowType)
 		{
 			switch (filterType)
 			{
@@ -41,7 +41,7 @@ namespace CycleFinder.Models
 		}
 
 
-		public static DigitalFilter GetDigitalFilter(DigitalFilterType filterType, List<double> stockInputData, int timeSpacing, int numberOfWeights, double frequencyLowEndCutOff =0, double frequencyLowEndRollOff=0, double frequencyHighEndRollOff=0, double frequencyHighEndCutOff =0)
+		public static DigitalFilter SetDigitalFilter(DigitalFilterType filterType, List<double> stockInputData, int timeSpacing, int numberOfWeights, double frequencyLowEndCutOff =0, double frequencyLowEndRollOff=0, double frequencyHighEndRollOff=0, double frequencyHighEndCutOff =0)
         {
             switch (filterType)
             {

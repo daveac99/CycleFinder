@@ -47,10 +47,10 @@ function drawChartFilters() {
    data.addColumn('number', 'Conv Price');
    data.addColumn('number', 'LT Price');
    data.addRows([
-       // @Model.InputSignalConvolutedFormatted;  what i want here is a chart helper - GChart.RowsFor(model => model.InputSignalConvoluted.OutputSeries)  GChart.RowsFor(model => model.Waves.Select(x => x.OutputSeries))
+       @*// @Model.InputSignalConvolutedFormatted;  what i want here is a chart helper - GChart.RowsFor(model => model.InputSignalConvoluted.OutputSeries)  GChart.RowsFor(model => model.Waves.Select(x => x.OutputSeries))
        //                                         also AddWave(x,x,x,"Wave Name")   Class Wave: Name, OutputSeries
-       // @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, model.LongTermTrendSeries.InputSignalSeries})
-       @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, DSP.Compound(new List<List<double>> {model.SineWavesSeries[0].InputSignalSeries, model.LongTermTrendSeries.InputSignalSeries,model.SineWavesSeries[1].InputSignalSeries,model.SineWavesSeries[2].InputSignalSeries})},200)
+       // @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, model.LongTermTrendSeries.InputSignalSeries})*@
+       @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted, DSP.Compound(new List<List<double>> {model.SineWavesSeries[0].InputSignalSeries, model.LongTermTrendSeries.InputSignalSeries,model.SineWavesSeries[1].InputSignalSeries,model.SineWavesSeries[2].InputSignalSeries})},0)
      
    ]);
    

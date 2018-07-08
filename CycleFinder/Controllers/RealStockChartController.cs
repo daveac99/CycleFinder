@@ -61,9 +61,10 @@ namespace CycleFinder.Controllers
 			ViewBag.DFT = Fourier.DFT(inputSignalsOil).GoogleChartDataFormat(frequencyConverter);  //ie sample rate of 52 weeks per year divided by number of samples
 
             viewModel.SetFilter(DigitalFilterType.LowPass, 2.9, 52, 301);
+          
 
 
-			return View();
+            return View();
 
 			//low cycles @ 0.26, 0.923 cycles per year
 

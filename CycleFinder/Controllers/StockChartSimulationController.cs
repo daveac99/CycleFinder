@@ -20,7 +20,7 @@ namespace CycleFinder.Controllers
 			viewmodel.AddSineWave(1000, 1, 0, "blue");
 			viewmodel.AddSineWave(2000, .5, .75 * Math.PI, "green");
 
-			viewmodel.GetInputSignalSeriesSummed(8, 8000);
+			viewmodel.SetInputSignalSeriesSummed(8, 8000);
 			//var DFT = Fourier.DFT1(sampleList);
 
 			return View(viewmodel);
@@ -38,8 +38,8 @@ namespace CycleFinder.Controllers
 			viewmodel.AddSineWave(21, 5, 0, "green");
 			viewmodel.AddSineWave(35, 2, 0, "green");
 			viewmodel.LongTermTrend = new LongTermTrend(100, 200, 1, 100, 0);
-			viewmodel.GetInputSignalSeriesPerWave(520, 260);
-			viewmodel.GetInputSignalSeriesSummed(520, 260);
+			viewmodel.SetInputSignalSeriesPerWave(520, 260);
+			viewmodel.SetInputSignalSeriesSummed(520, 260);
 			//var DFT = Fourier.DFT1(sampleList);
 
 			return View(viewmodel);
@@ -60,8 +60,8 @@ namespace CycleFinder.Controllers
             stockChartSimulationViewModel.AddSineWave(3, 10, 0);    //5
             stockChartSimulationViewModel.AddSineWave(5, 7, 0);    //6
 			stockChartSimulationViewModel.LongTermTrend = new LongTermTrend(100, 30, 0.1, 100, 0); //1
-			stockChartSimulationViewModel.GetInputSignalSeriesPerWave(2000, 52);
-            stockChartSimulationViewModel.GetInputSignalSeriesSummed(2000, 52);
+			stockChartSimulationViewModel.SetInputSignalSeriesPerWave(2000, 52);
+            stockChartSimulationViewModel.SetInputSignalSeriesSummed(2000, 52);
             //viewmodel.AddFilter(DigitalFilterType.BandPass, 7,99,1,1.5,3,4);
             stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass, 7, 199, 0.14, 0.2, 0.30, 0.36); //sets property values as well
             //viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
@@ -95,14 +95,18 @@ namespace CycleFinder.Controllers
 			stockChartSimulationViewModel.AddSineWave(3, 30, 0, "3");    //5
 			stockChartSimulationViewModel.AddSineWave(5, 25, 0, "5");    //6
 			stockChartSimulationViewModel.LongTermTrend = new LongTermTrend(100, 30, 0.1, 100, 0); //1
-			stockChartSimulationViewModel.GetInputSignalSeriesPerWave(2000, 52);
-			stockChartSimulationViewModel.GetInputSignalSeriesSummed(2000, 52);
-																												//viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
-			//stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.015, 100);
-            //stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.12, 52, 501); //this works well!
-             //this works well!! what I've learned here is the fast rolloff gives better results when frequencies are close together
-                                                                                              //	stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass, 7, 199, 0.14, 0.2, 0.30, 0.36); //sets property values as well
-                                                                                              //TODO show the filter and the DFT of the filter
+			stockChartSimulationViewModel.SetInputSignalSeriesPerWave(2000, 52);
+			stockChartSimulationViewModel.SetInputSignalSeriesSummed(2000, 52);
+            //viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
+            //stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.015, 100);
+            stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 0.2, 52, 1301); //this works well!
+                                                                                              // stockChartSimulationViewModel.SetFilter(DigitalFilterType.LowPass, 2.9, 52, 301);
+
+            //28/12/2017:   .SetFilter(DigitalFilterType.LowPass, 0.2, 52, 501) ==> decrease cutoff from 0.2 -> 0.1 --> much smoother. Increase filter length from 501 to 901 -> smoother but not as smooth, but increase cutoff to 0.15 and its smooth (with filter lenght=900)
+
+            //this works well!! what I've learned here is the fast rolloff  (ie bigger filter length) gives better results when frequencies are close together
+            //	stockChartSimulationViewModel.AddFilter(DigitalFilterType.BandPass, 7, 199, 0.14, 0.2, 0.30, 0.36); //sets property values as well
+            //TODO show the filter and the DFT of the filter
 
             // var thing = new List<List<double>> { stockChartSimulationViewModel.InputSignalConvoluted, stockChartSimulationViewModel.LongTermTrendSeries.InputSignalSeries};
             // var anotherThing = new List<List<double>> { stockChartSimulationViewModel.InputSignalConvoluted, DSP.Convolve(stockChartSimulationViewModel.SineWavesSeries[0].InputSignalSeries, stockChartSimulationViewModel.LongTermTrendSeries.InputSignalSeries) }; //good case for an indexer here instead of 0
@@ -120,19 +124,20 @@ namespace CycleFinder.Controllers
 			var stockChartSimulationViewModel = new StockChartSimulationViewModel(); //TODO create a StockChartViewModel which inherits from SineWaveViewModel
 																					 //viewmodel.AddSineWave(1000,1,0,"blue");
 																					 //viewmodel.AddSineWave(2000,.5, .75 * Math.PI,"green");
-			stockChartSimulationViewModel.AddSineWave(0.25, 90, 0, "0.25"); //0
+			stockChartSimulationViewModel.AddSineWave(0.25, 90, 0, "0.25"); //0    from class: StockChartSimulatorGenerator
 			stockChartSimulationViewModel.AddSineWave(0.4, 45, 0, "0.67"); //1
 			stockChartSimulationViewModel.AddSineWave(1, 35, 0, "1");    //2
 			stockChartSimulationViewModel.AddSineWave(3, 30, 0, "3");    //3
 			stockChartSimulationViewModel.AddSineWave(5, 25, 0, "5");    //4
-			stockChartSimulationViewModel.LongTermTrend = new LongTermTrend(100, 30, 0.1, 100, 0); //1
-			stockChartSimulationViewModel.GetInputSignalSeriesPerWave(2000, 52);
-			stockChartSimulationViewModel.GetInputSignalSeriesSummed(2000, 52);
-			//viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
-			
+			stockChartSimulationViewModel.LongTermTrend = new LongTermTrend(100, 30, 0.1, 100, 0); //1   from class: StockChartSimulatorGenerator
+            stockChartSimulationViewModel.SetInputSignalSeriesPerWave(2000, 52); // from class: StockChartSimulator Generator sets list of SineWaveSeries and LongTermTrendSeries
+
+           stockChartSimulationViewModel.SetInputSignalSeriesSummed(2000, 52); // from class: StockChartSimulator - sets InputSignalSeries
+                                                                               //viewmodel.AddFilter(DigitalFilterType.MovingAverage,1,30);
+
             //stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 2.5, 3.5, 52, 301); //301 gives a perfect match for frequency and amplitude!!
             //stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 0.8, 1.2, 52, 501); //501 needed in this case due to lower frequency, and gives a perfect match for the frequency and amplitude
-                                                                                                      //I also note you need higher M to give same amount of waves in the filter gor lower frequencies
+            //I also note you need higher M to give same amount of waves in the filter gor lower frequencies
             stockChartSimulationViewModel.SetFilter(DigitalFilterType.BandPass, 0.2, 0.3, 52, 901, WindowType.None); //Notes: when bandwidth was too close the amplitude was too low ie .23 low end cutoff and .27 high cutoff
 
 			// var thing = new List<List<double>> { stockChartSimulationViewModel.InputSignalConvoluted, stockChartSimulationViewModel.LongTermTrendSeries.InputSignalSeries};
