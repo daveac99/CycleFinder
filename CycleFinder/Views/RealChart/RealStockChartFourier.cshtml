@@ -1,12 +1,16 @@
-﻿
+﻿@model CycleFinder.Models.ChartViewModel
 
 @{
-    ViewData["Title"] = "About";
+    ViewData["Title"] = ViewData["Message"];
 }
 
 
 <div id="containerWave" style="width: 1000px; height: 800px; margin: 0 auto"></div>
+<div id="containerFilters" style="width: 1000px; height: 500px; margin: 0 auto"></div>
+<div id="containerKernel" style="width: 1000px; height: 500px; margin: 0 auto"></div>
+<div id="containerKernelFrequencyResponse" style="width: 1000px; height: 500px; margin: 0 auto"></div>
 <div id="containerFourier" style="width: 1000px; height: 800px; margin: 0 auto"></div>
+
 <script language="JavaScript">
 function drawChartWave() {
    // Define the chart to be drawn.
@@ -14,11 +18,11 @@ function drawChartWave() {
    data.addColumn('number', 'Time');
    data.addColumn('number', 'Price');
    data.addRows([
-        @ViewBag.StockChart
+       @Model.InputSignalSeriesFormatted     
    ]);
    
    // Set chart options
-   var options = {'title' : 'Wave Chart',
+   var options = {'title' : 'Stock Chart',
       hAxis: {
          title: 'Time'
       },
@@ -35,6 +39,98 @@ function drawChartWave() {
 	chart.draw(data, options);
    //chart.draw(data, google.charts.Line.convertOptions(options));	
 }
+
+function drawChartFilters() {
+   // Define the chart to be drawn.
+   var data = new google.visualization.DataTable();
+   data.addColumn('number', 'Time');
+   data.addColumn('number', 'Conv Price');
+   data.addColumn('number', 'LT Price');
+   data.addRows([
+       @Html.RowsFor(model => new List<List<double>> { model.InputSignalConvoluted })
+       ]);
+
+   // Set chart options
+   var options = {'title' : 'Band Pass Filter Applied to Wave Chart',
+
+      hAxis: {
+         title: 'Time'
+      },
+      vAxis: {
+         title: 'Price'
+      },
+      'width': 900,
+      'height':500
+   };
+
+   // Instantiate and draw the chart.
+   //var chart = new google.charts.Line(document.getElementById('containerBandPass'));
+    var chart = new google.visualization.LineChart(document.getElementById('containerFilters'));
+    chart.draw(data, options);
+   //chart.draw(data, google.charts.Line.convertOptions(options));
+}
+
+function drawChartKernel() {
+   // Define the chart to be drawn.
+   var data = new google.visualization.DataTable();
+   data.addColumn('number', 'SampleNo');
+   data.addColumn('number', 'Amplitude');
+
+   data.addRows([
+        @Html.RowsFor(model => model.DigitalFilter.Kernel)
+   ]);
+
+   // Set chart options
+   var options = {'title' : 'Band Pass Filter',
+
+      hAxis: {
+         title: 'Sample Number'
+      },
+      vAxis: {
+         title: 'Amplitude'
+
+      },
+      'width': 900,
+      'height':500
+   };
+
+   // Instantiate and draw the chart.
+   //var chart = new google.charts.Line(document.getElementById('containerBandPass'));
+    var chart = new google.visualization.LineChart(document.getElementById('containerKernel'));
+    chart.draw(data, options);
+   //chart.draw(data, google.charts.Line.convertOptions(options));
+}
+
+function drawChartKernelFrequencyResponse() {
+   // Define the chart to be drawn.
+   var data = new google.visualization.DataTable();
+   data.addColumn('number', 'Frequency');
+   data.addColumn('number', 'Amplitude');
+
+   data.addRows([
+        @Html.RowsFor(model => Fourier.DFT(model.DigitalFilter.Kernel), model => model.SampleRateForInputSignalSeries/model.DigitalFilter.Kernel.Count, 20 )
+   ]);
+
+   // Set chart options
+   var options = {'title' : 'Kernel Frequency Response at Frequency Rate',
+
+      hAxis: {
+         title: 'Frequency'
+      },
+      vAxis: {
+         title: 'Amplitude'
+
+      },
+      'width': 900,
+      'height':500
+   };
+
+   // Instantiate and draw the chart.
+   //var chart = new google.charts.Line(document.getElementById('containerBandPass'));
+    var chart = new google.visualization.LineChart(document.getElementById('containerKernelFrequencyResponse'));
+    chart.draw(data, options);
+   //chart.draw(data, google.charts.Line.convertOptions(options));
+}
 	
 function drawChartFourier() {
    // Define the chart to be drawn.
@@ -42,7 +138,7 @@ function drawChartFourier() {
    data.addColumn('number', 'Frequency');
    data.addColumn('number', 'Amplitude');
    data.addRows([
-        @ViewBag.DFT
+        @Model.DFT1Formatted
    ]);
    
    // Set chart options
@@ -66,7 +162,10 @@ function drawChartFourier() {
    //chart.draw(data, google.charts.Line.convertOptions(options));
 }
 //google.charts.load('current', {'packages': ['line']});
-	google.charts.load('current', {'packages': ['corechart']});
+google.charts.load('current', {'packages': ['corechart']});
 google.charts.setOnLoadCallback(drawChartWave);
+google.charts.setOnLoadCallback(drawChartFilters);
+google.charts.setOnLoadCallback(drawChartKernel);
+google.charts.setOnLoadCallback(drawChartKernelFrequencyResponse);
 google.charts.setOnLoadCallback(drawChartFourier);
 </script>

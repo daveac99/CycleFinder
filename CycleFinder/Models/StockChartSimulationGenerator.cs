@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CycleFinder.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -22,17 +23,6 @@ namespace CycleFinder.Models
         public List<SineWave> SineWaves { get; set; } = new List<SineWave>();
 		public LongTermTrend LongTermTrend { get; set; }
 
-		internal List<double> DFT1 => DFT1(InputSignalSeries).Select(x => x.Magnitude).ToList();
-		internal List<double> DFT2 => DFT2(InputSignalSeries).Select(x => x.Magnitude).ToList();
-		internal List<double> FFT
-		{
-			get
-			{
-				Complex[] input = InputSignalSeries.Select(x => new Complex(x, 0)).ToArray();
-				FFT(input);
-				return input.Select(x => x.Magnitude).ToList();
-			}
-		}
 
 		public List<WaveOutput> WaveOutputs
 		{
@@ -159,7 +149,9 @@ namespace CycleFinder.Models
 		}
 
 
+        public override string DFT1Formatted => DFT1.GoogleChartDataFormat(SampleRateforSummedSeries / DFT1.Count);
+        public override string DFT2Formatted => DFT2.GoogleChartDataFormat(SampleRateforSummedSeries / DFT2.Count);
+        public override string FFTFormatted => FFT.GoogleChartDataFormat(SampleRateforSummedSeries / FFT.Count);
 
-
-	}
+    }
 }
